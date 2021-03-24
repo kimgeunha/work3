@@ -30,19 +30,20 @@ public class MainActivity extends AppCompatActivity implements MapView.CurrentLo
 
         MapPolyline polyline = new MapPolyline();
         polyline.setTag(1000);
-        polyline.setLineColor(Color.argb(255, 255, 255, 255)); // Polyline 컬러 지정.
+        polyline.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
 
-// Polyline 좌표 지정.
+        // Polyline 좌표 지정.
 
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.545024,127.03923));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.527896,127.036245));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.537229, 127.005515));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.541889,127.095388));
+        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448943761134906, 127.16788011302884));
+        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44873082147137, 127.16672139875301));
+        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448396348424836, 127.16518546167829));
+        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.4477367575155, 127.16540642408388));
+        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448943761134906, 127.16788011302884));
 
-// Polyline 지도에 올리기.
+        // Polyline 지도에 올리기.
         mapView.addPolyline(polyline);
 
-// 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
         MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
         int padding = 100; // px
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
