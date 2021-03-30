@@ -2,8 +2,11 @@ package com.work.myapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -13,84 +16,26 @@ import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
 
-public class MainActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.POIItemEventListener {
+public class MainActivity extends AppCompatActivity {
 
-    MapView mapView;
-    RelativeLayout mapViewContainer;
-
+    public static final int sub = 1001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mapViewContainer = (RelativeLayout) findViewById(R.id.map_view);
-        mapView = new MapView(this);
-        mapView.setPOIItemEventListener(this);
-        mapViewContainer.addView(mapView);
+        Button btn = (Button)findViewById(R.id.map);
 
-        MapPolyline polyline = new MapPolyline();
-        polyline.setTag(1000);
-        polyline.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+                startActivityForResult(intent,sub);
+            }
+        });
 
-        // Polyline 좌표 지정.
-
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448943761134906, 127.16788011302884));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44873082147137, 127.16672139875301));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448396348424836, 127.16518546167829));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.4477367575155, 127.16540642408388));
-        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.448943761134906, 127.16788011302884));
-
-        // Polyline 지도에 올리기.
-        mapView.addPolyline(polyline);
-
-        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
-        MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
-        int padding = 100; // px
-        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 
 
     }
 
-    @Override
-    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-        }
-
-    @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-
-    }
-
-    @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-
-    }
-
-    @Override
-    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
-
-        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
-        MapPoint currentMapPoint = MapPoint.mapPointWithGeoCoord(mapPointGeo.latitude, mapPointGeo.longitude);
-        mapView.setMapCenterPoint(currentMapPoint, true);
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-    }
-
-    @Override
-    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdateFailed(MapView mapView) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-
-    }
 }
