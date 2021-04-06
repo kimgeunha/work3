@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapActivity extends AppCompatActivity {
-//    private static final String TAG = "as";
+    private static final String TAG = "as";
     MapView mapView;
     RelativeLayout mapViewContainer;
 
@@ -35,32 +35,32 @@ public class MapActivity extends AppCompatActivity {
         mapView = new MapView(this);
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.53737528, 127.00557633), true);
         mapViewContainer.addView(mapView);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         MapPolyline polyline = new MapPolyline();
         polyline.setTag(1000);
         polyline.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
 
         // Polyline 좌표 지정.
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("first", "Ada");
-//        user.put("last", "Lovelace");
-//        user.put("born", 1815);
-//
-//// Add a new document with a generated ID
-//        db.collection("users")
-//                .add(user)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
+        Map<String, Object> user = new HashMap<>();
+        user.put("first", "Ada");
+        user.put("last", "Lovelace");
+        user.put("born", 1815);
+
+// Add a new document with a generated ID
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44677049061589, 127.16760515299688));
         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.4456891874656, 127.16765769072074));
