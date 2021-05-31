@@ -4,27 +4,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class locationdata {
-        public String id;
-        public int localnumber;
+    public String id;
+    public String image;
+    public String street;
+    public String time;
 
+    public locationdata(){}
 
-        public void location(){
-            // Default constructor required for calls to DataSnapshot.getValue(FirebasePost.class)
-        }
+    public String getId() {
+        return id;
+    }
 
-        public void location(String id,int localnumber) {
-            this.id = id;
-            this.localnumber = localnumber;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        }
+    public String getImage() {
+        return image;
+    }
 
-        public Map<String, Object> toMap() {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("id", id);
-            result.put("id", id);
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-            return result;
-        }
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
 
 
