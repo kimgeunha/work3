@@ -24,9 +24,9 @@ public class CustomApdater extends RecyclerView.Adapter<CustomApdater.CustomView
     private ArrayList<locationdata> arraylist;
     private Context context;
 
-    public CustomApdater(ArrayList<locationdata> arraylist) {
+    public CustomApdater(ArrayList<locationdata> arraylist,Context context) {
         this.arraylist = arraylist;
-
+        this.context = context;
     }
 
 

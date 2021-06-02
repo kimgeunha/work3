@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -28,8 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
 
@@ -51,6 +55,8 @@ public class MapActivity extends AppCompatActivity{
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private CustomApdater cadapter;
+    View.OnClickListener cl;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -68,6 +74,7 @@ public class MapActivity extends AppCompatActivity{
         databaseReference = database.getReference("locationdata");
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529), true);
         mapViewContainer.addView(mapView);
+        btn = (Button)findViewById(R.id.btn);
 
         MapPolyline polyline = new MapPolyline();
         polyline.setTag(1000);
@@ -92,7 +99,7 @@ public class MapActivity extends AppCompatActivity{
             }
         });
 
-        cadapter = new CustomApdater(arrayList);
+        cadapter = new CustomApdater(arrayList,this);
         recyclerView.setAdapter(cadapter);
         cadapter.setOnItemClickListener(new CustomApdater.OnItemClickListener() {
             @Override
@@ -101,22 +108,29 @@ public class MapActivity extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), position+"번 지도입니다.", Toast.LENGTH_SHORT).show();
                 switch (pos){
                     case 0:
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
-                        mapView.addPolyline(polyline);
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.446656133395585, 127.16731194692203));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44637288569847, 127.16587786696184));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44906448332953, 127.16491763612774));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44935833859561, 127.16639285095282));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44668961248583, 127.16731371115651));
+
                     case 1:
-                        mapView.removePolyline(polyline);
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893554356, 127.16783719768529));
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893534356, 127.16783719168529));
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893574356, 127.16783719268529));
-                        mapView.addPolyline(polyline);
 
                 }
-
-
+                mapView.addPolyline(polyline);
+                MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
+                int padding = 100; // px
+                mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapView.removePolyline(polyline);
             }
         });
 
