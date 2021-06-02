@@ -1,11 +1,9 @@
 package com.work.myapp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,9 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapPolyline;
 
 import java.util.ArrayList;
 
@@ -32,7 +27,7 @@ public class CustomApdater extends RecyclerView.Adapter<CustomApdater.CustomView
 
 
     interface OnItemClickListener{
-        void onItemClick(View view, int position);
+        void onItemClick(View itemView, int position);
     }
 
     OnItemClickListener mListener;
@@ -59,6 +54,7 @@ public class CustomApdater extends RecyclerView.Adapter<CustomApdater.CustomView
                 .into(holder.image);
         holder.street.setText(arraylist.get(position).getStreet());
         holder.time.setText(arraylist.get(position).getTime());
+        holder.info.setText(arraylist.get(position).getInfo());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,13 +72,15 @@ public class CustomApdater extends RecyclerView.Adapter<CustomApdater.CustomView
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
-        TextView street,time;
+        TextView street,time,info;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.image);
             this.street = itemView.findViewById(R.id.street);
             this.time = itemView.findViewById(R.id.time);
+            this.info = itemView.findViewById(R.id.info);
+
         }
     }
 }

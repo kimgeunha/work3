@@ -2,22 +2,14 @@ package com.work.myapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
-import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -38,7 +30,7 @@ import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
 
 public class MapActivity extends AppCompatActivity{
     private static final String LOG_TAG = "MainActivity";
@@ -58,6 +50,16 @@ public class MapActivity extends AppCompatActivity{
     View.OnClickListener cl;
     Button btn;
 
+    /*List<String> list = new ArrayList<String>(){
+        {
+            add( 1,"37.446656133395585,127.16731194692203");
+            add( 2,"37.44637288569847, 127.16587786696184");
+            add( 3,"37.44906448332953, 127.16491763612774");
+            add( 4,"37.44935833859561, 127.16639285095282");
+            add( 5,"37.44668961248583, 127.16731371115651");
+        }
+    };*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -76,9 +78,10 @@ public class MapActivity extends AppCompatActivity{
         mapViewContainer.addView(mapView);
         btn = (Button)findViewById(R.id.btn);
 
-        MapPolyline polyline = new MapPolyline();
-        polyline.setTag(1000);
-        polyline.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
+        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+
+
+
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -90,49 +93,72 @@ public class MapActivity extends AppCompatActivity{
                     arrayList.add(loc);
                 }
                 cadapter.notifyDataSetChanged();
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
         cadapter = new CustomApdater(arrayList,this);
         recyclerView.setAdapter(cadapter);
         cadapter.setOnItemClickListener(new CustomApdater.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int pos = position;
                 Toast.makeText(getApplicationContext(), position+"번 지도입니다.", Toast.LENGTH_SHORT).show();
-                switch (pos){
-                    case 0:
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.446656133395585, 127.16731194692203));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44637288569847, 127.16587786696184));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44906448332953, 127.16491763612774));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44935833859561, 127.16639285095282));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44668961248583, 127.16731371115651));
+                if (position == 0) {
+                    MapPolyline polyline1 = new MapPolyline();
+                    polyline1.setTag(1000);
+                    polyline1.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
+                    polyline1.addPoint(MapPoint.mapPointWithGeoCoord(37.446656133395585, 127.16731194692203));
+                    polyline1.addPoint(MapPoint.mapPointWithGeoCoord(37.44637288569847, 127.16587786696184));
+                    polyline1.addPoint(MapPoint.mapPointWithGeoCoord(37.44906448332953, 127.16491763612774));
+                    polyline1.addPoint(MapPoint.mapPointWithGeoCoord(37.44935833859561, 127.16639285095282));
+                    polyline1.addPoint(MapPoint.mapPointWithGeoCoord(37.44668961248583, 127.16731371115651));
+                    mapView.addPolyline(polyline1);
+                    MapPointBounds mapPointBounds = new MapPointBounds(polyline1.getMapPoints());
+                    int padding = 100; // px
+                    mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+                } else if (position == 1) {
+                    MapPolyline polyline2 = new MapPolyline();
+                    polyline2.setTag(1000);
+                    polyline2.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
+                    polyline2.addPoint(MapPoint.mapPointWithGeoCoord(37.445178365779945, 127.16836444966167));
+                    polyline2.addPoint(MapPoint.mapPointWithGeoCoord(37.44573953272457, 127.16937969947553));
+                    polyline2.addPoint(MapPoint.mapPointWithGeoCoord(37.44614765149512, 127.17075478466643));
+                    polyline2.addPoint(MapPoint.mapPointWithGeoCoord(37.44612724560947, 127.1723354900728));
+                    mapView.addPolyline(polyline2);
+                    MapPointBounds mapPointBounds = new MapPointBounds(polyline2.getMapPoints());
+                    int padding = 100; // px
+                    mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 
-                    case 1:
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893524356, 127.16783719768529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893554356, 127.16783719768529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893534356, 127.16783719168529));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(37.44893574356, 127.16783719268529));
+                }else if (position == 2) {
+                    MapPolyline polyline3 = new MapPolyline();
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.44237246786802, 127.16878854138004));
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.44262755383964, 127.16916122802057));
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.444015206292285, 127.17354350886261));
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.443964190113675, 127.17461016373032));
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.44432130263341, 127.17547119838255));
+                    polyline3.addPoint(MapPoint.mapPointWithGeoCoord(37.4449743039758, 127.17854265035103));
+                    polyline3.setTag(1000);
+                    polyline3.setLineColor(Color.argb(255, 255, 0, 255)); // Polyline 컬러 지정.
+                    mapView.addPolyline(polyline3);
+                    MapPointBounds mapPointBounds = new MapPointBounds(polyline3.getMapPoints());
+                    int padding = 100; // px
+                    mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 
                 }
-                mapView.addPolyline(polyline);
-                MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
-                int padding = 100; // px
-                mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mapView.removeAllPolylines();
+
+
+
+                    }
+                });
             }
         });
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapView.removePolyline(polyline);
-            }
-        });
+
 
         MapPoint MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.446695087647534, 127.16732221361669);
         MapPOIItem marker = new MapPOIItem();

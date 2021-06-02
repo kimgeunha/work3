@@ -8,8 +8,15 @@ public class locationdata {
     public String image;
     public String street;
     public String time;
+    public String info;
 
     public locationdata(){}
+
+    public String getInfo() {return info;}
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     public String getId() {
         return id;
